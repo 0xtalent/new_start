@@ -11,6 +11,8 @@ def board_write():
         name = request.form.get("name")
         title = request.form.get("title")        
         contents = request.form.get("contents")
+        print(name, title, contents)
+        return ""
     else:
         return render_template("write.html")
 
