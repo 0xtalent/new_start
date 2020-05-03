@@ -6,11 +6,14 @@
     <title>남박사의 파이썬으로 웹사이트 만들기</title>
 </head>
 <body>
-    <form action="/login" method="POST">
-        <input type="text" name="email"/>
-        <input type="password" name="password"/>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.js"></script>
 
-        <input type="file" name="file" id="">
-    </form>
+<p onclick="change(this)">여기를 클릭</p>
+
+<script>
+    function change(elem) {
+        elem.innerHTML = "내용 변경";
+    }
+</script>
 </body>
 </html>
