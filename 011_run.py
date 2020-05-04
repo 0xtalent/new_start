@@ -23,9 +23,9 @@ def format_datetime(value):
     value = datetime.fromtimestamp((int(value) / 1000)) + offset
     return value.strftime('%Y-%m-%d %H:%M:%S')
 
-@app.route("/view")
-def board_view():
-    idx = request.args.get("idx")
+@app.route("/view/<idx>")
+def board_view(idx):
+    # idx = request.args.get("idx")
     if idx is not None:
         board = mongo.db.board
         data = board.find_one({"_id": ObjectId(idx)})
