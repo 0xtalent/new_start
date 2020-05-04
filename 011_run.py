@@ -5,10 +5,21 @@ from flask_pymongo import PyMongo
 from datetime import datetime
 from bson.objectid import ObjectId
 from flask import abort
+import time
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myweb"
 mongo = PyMongo(app)
+
+@app.template_filter("formatdatetime")
+def format_datetime(value):
+    if value is None:
+        return ""
+
+    now_timestamp = time.time()
+    offset = datetime.fromtimestamp(now_timestamp) - datetime.utcfromtimestamp(now_timestamp)
+    value = datetime.fromtimestamp((int(value) / 1000)) + offset
+    return value.strftime('%Y-%m-%d %H:%M:%S')
 
 @app.route("/view")
 def board_view():
