@@ -3,11 +3,32 @@ from flask import request
 from flask import render_template
 from flask_pymongo import PyMongo
 from datetime import datetime
+from bson.objectid import ObjectId
+from flask import abort
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myweb"
 mongo = PyMongo(app)
 
+@app.route("/view")
+def board_view():
+    idx = request.args.get("idx")
+    if idx is not None:
+        board = mongo.db.board
+        data = board.find_one({"_id": ObjectId(idx)})
+
+        if data is not None:
+            result = {
+                "id": data.get("_id"),
+                "name": data.get("name"),
+                "title": data.get("title"),
+                "contents": data.get("contents"),
+                "pubdate": data.get("pubdate"),
+                "view": data.get("view")
+            }
+
+            return render_template("view.html", result=result)
+    return abort(404)    
 
 @app.route("/write", methods=["GET", "POST"])
 def board_write():
